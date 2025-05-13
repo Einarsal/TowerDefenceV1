@@ -1,0 +1,25 @@
+vad som behövs:
+en plats
+gubbar som kan skjuta
+gubbar som blir skjutna
+ett sätt att köpa skjutgubbar
+
+Plats:
+Det är bra om platsen är ett rutnät.
+Platsen behöver en bana som gågubbarna kan gå på och ytor som skjutgubbarna står på.
+Banan behöver ett ställe där gågubbarna spawnar och ett mål där gågubbarna gör damage.
+
+Skjutgubbar:
+skjutgubbarna behöver ha en range som de kan upptäcka och skjuta på.
+De behöver ett sätt att upptäcka gågubbarna.
+De behöver ett sätt att skjuta på så att de träffar gågubbarna
+
+GåGubbar:
+Gågubbarna behöver ett sätt att veta hur banan gå och när de ska svänga.
+De behöver ett sätt att räkna ut hur mycket liv de har förlorat.
+De behöver ett sätt att skada målet.
+De behöver ett sätt att spawna så att de inte kommer för tätt eller för glest.
+
+Köpa:
+Det måste finnas en lista man kan dra eller klicka skjutgubbar från.
+Det måste finnas pengar och priser.
