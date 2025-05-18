@@ -1,18 +1,20 @@
 package org.example;
 
+import java.util.ArrayList;
+import java.util.List;
+
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        startProgram("Pe1nabDefence");
+        startProgram();
     }
 
-    public static void startProgram(String title){
-        Runnable thread = () ->{
-            for (int i = 0; i < 5; i++) {
-                System.out.println(i);
-            }
-        };
-        thread.run();
+    public static void startProgram(){
+        try {
+            new GameContainer();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
