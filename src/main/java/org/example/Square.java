@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Square extends JPanel {
+    public Integer pathIndex;
     private int type;
     public boolean hasGubbe;
     public boolean isRow, isPlacingArea, isStart, isEnd;
@@ -15,6 +16,11 @@ public class Square extends JPanel {
         this.width = width;
         this.height = height;
         this.coord = new SquareCoord(col, row);
+        setBorder(BorderFactory.createLineBorder(Color.black, 2));
+    }
+
+    public void setPathIndex(int i){
+        this.pathIndex = i;
     }
 
     public void setType(int assignment){
@@ -30,9 +36,11 @@ public class Square extends JPanel {
         }
     }
 
-    public void paintGubbe(boolean hasGubbe){
+    public void paintGubbe(boolean hasGubbe, Enemy enemy){
         this.hasGubbe = hasGubbe;
         repaint();
+        if(!hasGubbe) this.enemy = null;
+        else this.enemy = enemy;
     }
 
     @Override

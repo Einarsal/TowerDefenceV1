@@ -8,7 +8,7 @@ import java.util.HashMap;
 public class Panel extends JPanel {
 
     private final int rows, cols;
-    private final Square[][] grid;
+    public final Square[][] grid;
     private HashMap<SquareCoord, Square> path;
     private ArrayList<Square> pathSquares;
     private Square firstPathSquare = null;

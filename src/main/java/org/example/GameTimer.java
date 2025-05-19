@@ -31,7 +31,11 @@ public class GameTimer implements Runnable {
 
     private void runGame() {
         mom.sortPath();
+        for (int i = 0; i < 5; i++) {
+            GameContainer.enemies.add(new Enemy(GameContainer.path, GameContainer.panel.getFirstPathSquare()));
+        }
         mom.spawnEnemies();
+        mom.tempTowerSpawner();
         while (true) {
             tick();
             try {

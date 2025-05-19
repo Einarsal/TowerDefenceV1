@@ -9,12 +9,13 @@ public class GameContainer {
 
     public static final String title = "Pe1nab Defence";
     public static final int fps = 5;
-    private static Panel panel = new Panel(10, 10);
+    public static Panel panel = new Panel(10, 10);
     static Frame mainFrame;
     public static ArrayList<Enemy> enemies = new ArrayList<>();
     public static ArrayList<Unit> units = new ArrayList<>();
     public static final HashMap<SquareCoord, Square> path = panel.getPath();
     public static ArrayList<Square> sortedPath;
+    private Shooter testShooter;
 
 
     public GameContainer() throws InterruptedException {
@@ -54,8 +55,14 @@ public class GameContainer {
     }
 
     public void spawnEnemies() {
-        Enemy gubbe = new Enemy(panel.getPath(), panel.getFirstPathSquare());
-        enemies.add(gubbe);
+//        Enemy gubbe = new Enemy(panel.getPath(), panel.getFirstPathSquare());
+//        enemies.add(gubbe);
+    }
+
+    public void tempTowerSpawner(){
+//        testShooter = new Archer(panel.grid[4][4]);
+        Archer archer = new Archer(panel.grid[4][4]);
+        units.add(archer);
     }
 
 

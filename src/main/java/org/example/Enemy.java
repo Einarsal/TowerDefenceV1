@@ -7,7 +7,7 @@ public class Enemy {
 
     public int pathIndex = 0;
     public static boolean pathSorted = false;
-    private Square currentSquare;
+    public Square currentSquare;
     HashMap<SquareCoord, Square> path;
     private Direction lastDirection;
     Direction[] directions = Direction.values();
@@ -36,7 +36,9 @@ public class Enemy {
     public ArrayList<Square> sortPath(HashMap<SquareCoord, Square> path) {
         ArrayList<Square> sortedPath = new ArrayList<>();
         for (int i = 0; i + 1 < path.size(); i++) {
-            sortedPath.add(getNextPath());
+            Square nextPath = getNextPath();
+            nextPath.setPathIndex(i);
+            sortedPath.add(nextPath);
         }
         return sortedPath;
     }
@@ -52,9 +54,9 @@ public class Enemy {
 
     public void move() {
         if (pathIndex + 1 >= path.size()) return;
-        currentSquare.paintGubbe(false);
+        currentSquare.paintGubbe(false, this);
         currentSquare = getNextPath();
-        currentSquare.paintGubbe(true);
+        currentSquare.paintGubbe(true, this);
         pathIndex++;
     }
 
@@ -78,6 +80,9 @@ public class Enemy {
         return nextPath;
     }
 
+    public int getIndex(){
+        return currentSquare.pathIndex;
+    }
 
     private Square getNextPathFromMap(boolean vertical, int increase) {
         SquareCoord currentCoord = currentSquare.coord;
@@ -112,10 +117,14 @@ public class Enemy {
     }
 
     public void spawn(Square currentSquare) {
-        currentSquare.paintGubbe(true);
+        currentSquare.paintGubbe(true, this);
+    }
+
+    public String toString(){
+        return currentSquare.toString();
     }
 
     public void takeDamage(int damage) {
-
+        System.out.println("Taking " + damage + " damage");
     }
 }
