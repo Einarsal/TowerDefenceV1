@@ -22,9 +22,6 @@ public class Square extends JPanel {
         setBackground();
     }
 
-
-
-
     private void setBackground(){
         switch(type){
             case -2,-1 -> setBackground(Color.BLACK);
@@ -53,6 +50,8 @@ public class Square extends JPanel {
         g.fillOval(0, 0, width, height);
     }
 
-
-
+    @Override
+    public String toString() {
+        return "(" + coord.col + "," + coord.row + ")";
+    }
 }

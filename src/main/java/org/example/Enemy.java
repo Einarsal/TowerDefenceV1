@@ -1,21 +1,20 @@
 package org.example;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class Enemy {
 
     public int pathIndex = 0;
-
+    public static boolean pathSorted = false;
     private Square currentSquare;
-    Map<SquareCoord, Square> path;
-//    private boolean isDone;
+    HashMap<SquareCoord, Square> path;
     private Direction lastDirection;
     Direction[] directions = Direction.values();
-    Map<Direction, Direction> oppositeDirection = new HashMap<>();
+    HashMap<Direction, Direction> oppositeDirection = new HashMap<>();
     SquareCoord[] cords;
 
-    public Enemy(Map<SquareCoord, Square> path, Square firstSquare) {
+    public Enemy(HashMap<SquareCoord, Square> path, Square firstSquare) {
         this.path = path;
         cords = addCoordsToArray();
         oppositeDirection = createOppositeDirection();
@@ -34,8 +33,16 @@ public class Enemy {
         return list;
     }
 
-    private Map<Direction, Direction> createOppositeDirection() {
-        Map<Direction, Direction> map = new HashMap<>();
+    public ArrayList<Square> sortPath(HashMap<SquareCoord, Square> path) {
+        ArrayList<Square> sortedPath = new ArrayList<>();
+        for (int i = 0; i + 1 < path.size(); i++) {
+            sortedPath.add(getNextPath());
+        }
+        return sortedPath;
+    }
+
+    private HashMap<Direction, Direction> createOppositeDirection() {
+        HashMap<Direction, Direction> map = new HashMap<>();
         map.put(Direction.RIGHT, Direction.LEFT);
         map.put(Direction.LEFT, Direction.RIGHT);
         map.put(Direction.DOWN, Direction.UP);
@@ -44,7 +51,7 @@ public class Enemy {
     }
 
     public void move() {
-        if (pathIndex + 1 == path.size()) return;
+        if (pathIndex + 1 >= path.size()) return;
         currentSquare.paintGubbe(false);
         currentSquare = getNextPath();
         currentSquare.paintGubbe(true);
@@ -65,7 +72,6 @@ public class Enemy {
             }
             if (nextPath != null) {
                 lastDirection = d;
-                System.out.println(d);
                 break;
             }
         }
@@ -78,8 +84,8 @@ public class Enemy {
         SquareCoord newSquareCoord;
         int col = currentCoord.col;
         int row = currentCoord.row;
-        if (vertical) newSquareCoord = getCordsFromArray(row + increase, col );
-        else newSquareCoord = getCordsFromArray(row, col + increase );
+        if (vertical) newSquareCoord = getCordsFromArray(row + increase, col);
+        else newSquareCoord = getCordsFromArray(row, col + increase);
         Square newSquare;
         try {
             newSquare = path.get(newSquareCoord);
@@ -109,7 +115,7 @@ public class Enemy {
         currentSquare.paintGubbe(true);
     }
 
-    public void takeDamage(int damage){
+    public void takeDamage(int damage) {
 
     }
 }

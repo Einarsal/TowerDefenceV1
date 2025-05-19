@@ -27,10 +27,10 @@ public class GameTimer implements Runnable {
     public static void stopGame() {
         GameContainer.gameStopped("you suck");
         System.out.println("gameOver");
-//        throw new RuntimeException();
     }
 
     private void runGame() {
+        mom.sortPath();
         mom.spawnEnemies();
         while (true) {
             tick();

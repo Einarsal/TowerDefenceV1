@@ -14,18 +14,25 @@ public class GameContainer {
     public static ArrayList<Enemy> enemies = new ArrayList<>();
     public static ArrayList<Unit> units = new ArrayList<>();
     public static final HashMap<SquareCoord, Square> path = panel.getPath();
+    public static ArrayList<Square> sortedPath;
 
 
     public GameContainer() throws InterruptedException {
+        mainFrame = new Frame(title, panel);
         GameTimer updater = new GameTimer(fps, this);
         updater.thread.start();
-        mainFrame = new Frame(title, panel);
         Thread.sleep(10000);
         updater.thread.interrupt();
     }
 
-    public static void gameStopped(String message){
-        JOptionPane.showMessageDialog(mainFrame, message);
+    public static void gameStopped(String message) {
+        System.exit(0);
+//        JOptionPane.showMessageDialog(mainFrame, message);
+    }
+
+    public void sortPath(){
+        Enemy pathFinder = new Enemy(path, panel.getFirstPathSquare());
+        sortedPath = pathFinder.sortPath(path);
     }
 
 
@@ -34,14 +41,14 @@ public class GameContainer {
         fireUnits();
     }
 
-    private void moveEnemies(){
-        for(Enemy e : enemies){
+    private void moveEnemies() {
+        for (Enemy e : enemies) {
             e.move();
         }
     }
 
-    private void fireUnits(){
-        for(Unit u : units){
+    private void fireUnits() {
+        for (Unit u : units) {
             u.fire();
         }
     }
@@ -49,6 +56,7 @@ public class GameContainer {
     public void spawnEnemies() {
         Enemy gubbe = new Enemy(panel.getPath(), panel.getFirstPathSquare());
         enemies.add(gubbe);
-        moveEnemies();
     }
+
+
 }

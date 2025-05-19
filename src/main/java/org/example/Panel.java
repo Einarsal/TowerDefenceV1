@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class Panel extends JPanel {
 
@@ -12,7 +11,6 @@ public class Panel extends JPanel {
     private final Square[][] grid;
     private HashMap<SquareCoord, Square> path;
     private ArrayList<Square> pathSquares;
-//    Enemy gubbe;
     private Square firstPathSquare = null;
 
     public Panel(int rows, int cols) {
@@ -52,7 +50,10 @@ public class Panel extends JPanel {
                 for (int j = 0; j < cols; j++) {
 
                     if (ImageGenerator.squareAssignments[i][j] == 1) {
-                        if(firstPathSquare == null) firstPathSquare = grid[i][j];
+                        if(firstPathSquare == null) {
+                            System.out.println(i + " " + j);
+                            firstPathSquare = grid[i][j];
+                        }
                         path.put(grid[i][j].coord, grid[i][j]);
                     }
                     grid[i][j].setType(ImageGenerator.squareAssignments[i][j]);
@@ -61,6 +62,8 @@ public class Panel extends JPanel {
             return grid;
         });
     }
+
+
 
     private boolean imageIsValid(int rows, int cols, int[][] assignments) {
         if (assignments.length != rows) return false;
