@@ -34,15 +34,14 @@ public class Shooter {
         if(enemies.size() < 2) return enemies;
         ArrayList<Enemy> sortedEnemies = new ArrayList<>(enemies);
         for (int i = sortedEnemies.size(); i > 0; i--) {
-            for (int j = 0; j < i; j++) {
-                if(sortedEnemies.get(j).getIndex() > sortedEnemies.get(j + 1).getIndex()) {
+            for (int j = 0; j < i-1; j++) {
+                if(sortedEnemies.get(j).getIndex() < sortedEnemies.get(j + 1).getIndex()) {
                     Enemy temp = sortedEnemies.get(j);
                     sortedEnemies.set(j, sortedEnemies.get(j + 1));
                     sortedEnemies.set(j + 1, temp);
                 }
             }
         }
-        System.out.println(sortedEnemies);
         return sortedEnemies;
     }
 

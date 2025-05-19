@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Square extends JPanel {
-    public Integer pathIndex;
+    public Integer pathIndex = -1;
     private int type;
     public boolean hasGubbe;
     public boolean isRow, isPlacingArea, isStart, isEnd;

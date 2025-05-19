@@ -6,6 +6,7 @@ public class GameTimer implements Runnable {
     public final Thread thread;
     private final int sleepTime;
     private final GameContainer mom;
+    private int tempcounter = 0;
 
     public GameTimer(int fps, GameContainer mom) {
         this.fps = fps;
@@ -48,6 +49,9 @@ public class GameTimer implements Runnable {
     }
 
     private void tick() {
+        if(tempcounter < 5) {
+        GameContainer.enemies.add(new Enemy(GameContainer.path, GameContainer.panel.getFirstPathSquare()));
+        tempcounter++;}
         mom.updateGame();
     }
 }

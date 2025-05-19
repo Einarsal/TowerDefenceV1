@@ -6,7 +6,6 @@ import java.util.HashMap;
 public class Enemy {
 
     public int pathIndex = 0;
-    public static boolean pathSorted = false;
     public Square currentSquare;
     HashMap<SquareCoord, Square> path;
     private Direction lastDirection;
