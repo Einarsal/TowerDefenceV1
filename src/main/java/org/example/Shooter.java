@@ -27,6 +27,7 @@ public class Shooter {
         };
         ArrayList<Enemy> enemiesInRange = areaScanner.scanArea(range, position);
         if(enemiesInRange.isEmpty()) return;
+
         enemiesInRange.getFirst().takeDamage(damage);
     }
 
