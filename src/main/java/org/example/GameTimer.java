@@ -21,7 +21,11 @@ public class GameTimer implements Runnable {
 
     @Override
     public void run() {
-        runGame();
+        try {
+            runGame();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
@@ -30,11 +34,9 @@ public class GameTimer implements Runnable {
         System.out.println("gameOver");
     }
 
-    private void runGame() {
+    private void runGame() throws InterruptedException {
+//        thread.sleep(1000);
         mom.sortPath();
-        for (int i = 0; i < 5; i++) {
-            GameContainer.enemies.add(new Enemy(GameContainer.path, GameContainer.panel.getFirstPathSquare()));
-        }
         mom.spawnEnemies();
         mom.tempTowerSpawner();
         while (true) {
@@ -49,7 +51,7 @@ public class GameTimer implements Runnable {
     }
 
     private void tick() {
-        if(tempcounter < 5) {
+        if(tempcounter < 3) {
         GameContainer.enemies.add(new Enemy(GameContainer.path, GameContainer.panel.getFirstPathSquare()));
         tempcounter++;}
         mom.updateGame();

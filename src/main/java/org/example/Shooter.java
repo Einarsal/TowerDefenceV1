@@ -35,7 +35,7 @@ public class Shooter {
         ArrayList<Enemy> sortedEnemies = new ArrayList<>(enemies);
         for (int i = sortedEnemies.size(); i > 0; i--) {
             for (int j = 0; j < i-1; j++) {
-                if(sortedEnemies.get(j).getIndex() < sortedEnemies.get(j + 1).getIndex()) {
+                if(sortedEnemies.get(j).getIndex() > sortedEnemies.get(j + 1).getIndex()) {
                     Enemy temp = sortedEnemies.get(j);
                     sortedEnemies.set(j, sortedEnemies.get(j + 1));
                     sortedEnemies.set(j + 1, temp);
@@ -45,9 +45,7 @@ public class Shooter {
         return sortedEnemies;
     }
 
-    private ArrayList<Enemy> cloneEnemiesList(ArrayList<Enemy> enemies) {
-        return new ArrayList<>(enemies);
-    }
+
 
 
     private ArrayList<Square> findSquaresInRange(int range, Square position){

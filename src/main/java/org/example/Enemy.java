@@ -5,13 +5,15 @@ import java.util.HashMap;
 
 public class Enemy {
 
+    public boolean dead = false;
     public int pathIndex = 0;
     public Square currentSquare;
-    HashMap<SquareCoord, Square> path;
+    private HashMap<SquareCoord, Square> path;
     private Direction lastDirection;
-    Direction[] directions = Direction.values();
-    HashMap<Direction, Direction> oppositeDirection = new HashMap<>();
-    SquareCoord[] cords;
+    private Direction[] directions = Direction.values();
+    private HashMap<Direction, Direction> oppositeDirection = new HashMap<>();
+    private SquareCoord[] cords;
+    public int health;
 
     public Enemy(HashMap<SquareCoord, Square> path, Square firstSquare) {
         this.path = path;
@@ -19,7 +21,12 @@ public class Enemy {
         oppositeDirection = createOppositeDirection();
         lastDirection = Direction.RIGHT;
         currentSquare = firstSquare;
+        setHealth(100);
         spawn(currentSquare);
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
     }
 
     private SquareCoord[] addCoordsToArray() {
@@ -79,7 +86,7 @@ public class Enemy {
         return nextPath;
     }
 
-    public int getIndex(){
+    public int getIndex() {
         return currentSquare.pathIndex;
     }
 
@@ -119,11 +126,21 @@ public class Enemy {
         currentSquare.paintGubbe(true, this);
     }
 
-    public String toString(){
+    public String toString() {
         return currentSquare.toString();
     }
 
+    private void die() {
+        currentSquare.paintGubbe(false, this);
+        GameContainer.enemies.remove(this);
+        dead = true;
+    }
+
     public void takeDamage(int damage) {
+        health -= damage;
+        if (health <= 0) die();
         System.out.println("Taking " + damage + " damage");
     }
 }
+
+

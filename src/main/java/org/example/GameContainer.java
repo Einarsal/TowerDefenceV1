@@ -15,15 +15,14 @@ public class GameContainer {
     public static ArrayList<Unit> units = new ArrayList<>();
     public static final HashMap<SquareCoord, Square> path = panel.getPath();
     public static ArrayList<Square> sortedPath;
-    private Shooter testShooter;
 
 
     public GameContainer() throws InterruptedException {
         mainFrame = new Frame(title, panel);
         GameTimer updater = new GameTimer(fps, this);
         updater.thread.start();
-        Thread.sleep(10000);
-        updater.thread.interrupt();
+        Thread.sleep(5000);
+//        updater.thread.interrupt();
     }
 
     public static void gameStopped(String message) {
@@ -31,7 +30,7 @@ public class GameContainer {
 //        JOptionPane.showMessageDialog(mainFrame, message);
     }
 
-    public void sortPath(){
+    public void sortPath() {
         Enemy pathFinder = new Enemy(path, panel.getFirstPathSquare());
         sortedPath = pathFinder.sortPath(path);
     }
@@ -43,9 +42,15 @@ public class GameContainer {
     }
 
     private void moveEnemies() {
+        removeDeadEnemies();
         for (Enemy e : enemies) {
             e.move();
+            System.out.println(e.health);
         }
+    }
+
+    private void removeDeadEnemies() {
+        for (Enemy e : enemies) if (e.dead) enemies.remove(e);
     }
 
     private void fireUnits() {
@@ -59,9 +64,13 @@ public class GameContainer {
 //        enemies.add(gubbe);
     }
 
-    public void tempTowerSpawner(){
+    public void tempTowerSpawner() {
 //        testShooter = new Archer(panel.grid[4][4]);
-        Archer archer = new Archer(panel.grid[4][4]);
+        Archer archer = new Archer(panel.grid[5][5]);
+        Square s = panel.getSquare(5, 5);
+        s.placeTower(0);
+        s.setHasTower(true);
+        panel.grid[5][5].placeTower(0);
         units.add(archer);
     }
 

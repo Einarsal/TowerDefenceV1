@@ -84,4 +84,8 @@ public class Panel extends JPanel {
     public Square getFirstPathSquare() {
         return firstPathSquare;
     }
+
+    public Square getSquare(int row, int col) {
+        return grid[row][col];
+    }
 }
