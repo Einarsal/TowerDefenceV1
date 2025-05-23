@@ -6,7 +6,6 @@ public class GameTimer implements Runnable {
     public final Thread thread;
     private final int sleepTime;
     private final GameContainer mom;
-    private int tempcounter = 0;
 
     public GameTimer(int fps, GameContainer mom) {
         this.fps = fps;
@@ -24,36 +23,30 @@ public class GameTimer implements Runnable {
         try {
             runGame();
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            stopGame();
         }
     }
 
 
     public static void stopGame() {
-        GameContainer.gameStopped("you suck");
+        GameContainer.gameStopped();
         System.out.println("gameOver");
     }
 
     private void runGame() throws InterruptedException {
 //        thread.sleep(1000);
-        mom.sortPath();
-        mom.spawnEnemies();
+        mom.startWave();
         mom.tempTowerSpawner();
         while (true) {
-            tick();
-            try {
                 thread.sleep(sleepTime);
-            } catch (InterruptedException e) {
-//                e.printStackTrace();
-                stopGame();
-            }
+            tick();
         }
     }
 
     private void tick() {
-        if(tempcounter < 3) {
-        GameContainer.enemies.add(new Enemy(GameContainer.path, GameContainer.panel.getFirstPathSquare()));
-        tempcounter++;}
         mom.updateGame();
+//        if(tempcounter < 3) {
+//        GameContainer.enemies.add(GameContainer.panel.getFirstPathSquare()));
+//        tempcounter++;}
     }
 }

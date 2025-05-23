@@ -1,5 +1,9 @@
 package org.example;
 
 public interface Unit {
-    public void fire();
+    void fire();
+
+     int getRow();
+     int getCol();
+     int getType();
 }

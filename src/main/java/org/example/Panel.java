@@ -63,6 +63,12 @@ public class Panel extends JPanel {
         });
     }
 
+    public void placeUnit(Unit unit) {
+        int row = unit.getRow();
+        int col = unit.getCol();
+        grid[row][col].placeTower(unit.getType());
+        revalidate();
+    }
 
 
     private boolean imageIsValid(int rows, int cols, int[][] assignments) {

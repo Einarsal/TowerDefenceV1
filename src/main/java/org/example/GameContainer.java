@@ -1,14 +1,12 @@
 package org.example;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class GameContainer {
 
     public static final String title = "Pe1nab Defence";
-    public static final int fps = 5;
+    public static final int fps = 2;
     public static Panel panel = new Panel(10, 10);
     static Frame mainFrame;
     public static ArrayList<Enemy> enemies = new ArrayList<>();
@@ -19,38 +17,48 @@ public class GameContainer {
 
     public GameContainer() throws InterruptedException {
         mainFrame = new Frame(title, panel);
+        sortPath();
         GameTimer updater = new GameTimer(fps, this);
         updater.thread.start();
         Thread.sleep(5000);
 //        updater.thread.interrupt();
     }
 
-    public static void gameStopped(String message) {
-        System.exit(0);
-//        JOptionPane.showMessageDialog(mainFrame, message);
+    public static void gameStopped() {
+        System.out.println("Game stopped");
     }
 
     public void sortPath() {
-        Enemy pathFinder = new Enemy(path, panel.getFirstPathSquare());
+        Enemy pathFinder = new Enemy(panel.getFirstPathSquare());
         sortedPath = pathFinder.sortPath(path);
+
+        for (int i = 0; i < sortedPath.size(); i++) {
+            Square s = sortedPath.get(i);
+            int col = s.coord.col;
+            int row = s.coord.row;
+            panel.grid[col][row].setPathIndex(i);
+        }
     }
 
 
     public void updateGame() {
-        moveEnemies();
         fireUnits();
+        moveEnemies();
     }
 
     private void moveEnemies() {
         removeDeadEnemies();
+        if (enemies.isEmpty()) finnishWave();
         for (Enemy e : enemies) {
             e.move();
-            System.out.println(e.health);
         }
+    }
+    public void finnishWave(){
+        gameStopped();
     }
 
     private void removeDeadEnemies() {
-        for (Enemy e : enemies) if (e.dead) enemies.remove(e);
+        enemies.removeIf(e -> e.dead);
     }
 
     private void fireUnits() {
@@ -59,18 +67,18 @@ public class GameContainer {
         }
     }
 
-    public void spawnEnemies() {
-//        Enemy gubbe = new Enemy(panel.getPath(), panel.getFirstPathSquare());
-//        enemies.add(gubbe);
+    public void startWave(){
+        spawnEnemies(new Enemy[]{new Enemy(panel.getFirstPathSquare())});
+    }
+
+    public void spawnEnemies(Enemy[] newEnemies) {
+
+        enemies.add(new Enemy(panel.getFirstPathSquare()));
     }
 
     public void tempTowerSpawner() {
-//        testShooter = new Archer(panel.grid[4][4]);
         Archer archer = new Archer(panel.grid[5][5]);
-        Square s = panel.getSquare(5, 5);
-        s.placeTower(0);
-        s.setHasTower(true);
-        panel.grid[5][5].placeTower(0);
+        panel.placeUnit(archer);
         units.add(archer);
     }
 

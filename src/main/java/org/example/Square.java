@@ -5,14 +5,14 @@ import java.awt.*;
 import java.util.Arrays;
 
 public class Square extends JPanel {
+//    public boolean isRow, isPlacingArea, isStart, isEnd;
     public Integer pathIndex = -1;
     private int type;
     public boolean hasGubbe, hasTower;
-    public boolean isRow, isPlacingArea, isStart, isEnd;
-    private int width, height;
+    private final int width, height;
     public SquareCoord coord;
     public Enemy enemy;
-    public TowerType towerType;
+    private TowerType towerType;
 
 
     private enum TowerType {
@@ -33,7 +33,9 @@ public class Square extends JPanel {
     public void placeTower(int typeIndex) {
         this.hasTower = true;
         this.towerType = TowerType.values()[typeIndex];
+        setHasTower(true);
         System.out.println(towerType + " " + this);
+        repaint();
     }
 
     public void setPathIndex(int i) {
@@ -68,24 +70,22 @@ public class Square extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        if (hasTower){
-            System.out.println("hasTower");
-            g.setColor(Color.black);
-            g.fillOval(0, 0, width, height);
-        }
+        if (hasTower)paintTower(g);
+
+
 
         if (hasGubbe) paintEnemy(g, Color.MAGENTA);
-//        System.out.println(hasTower);
 
     }
+
 
     private void paintEnemy(Graphics g, Color c) {
         g.setColor(c);
         g.fillOval(0, 0, width, height);
     }
 
-    private void paintTower(Graphics g, TowerType type) {
-//        g.setColor(getTowerColor(type));
+    private void paintTower(Graphics g ) {
+        g.setColor(getTowerColor(towerType));
         g.setColor(Color.black);
         g.fillOval(0, 0, width, height);
     }

@@ -1,5 +1,6 @@
 package org.example;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -10,13 +11,19 @@ public class Enemy {
     public Square currentSquare;
     private HashMap<SquareCoord, Square> path;
     private Direction lastDirection;
-    private Direction[] directions = Direction.values();
+    private final Direction[] directions = Direction.values();
     private HashMap<Direction, Direction> oppositeDirection = new HashMap<>();
     private SquareCoord[] cords;
     public int health;
 
-    public Enemy(HashMap<SquareCoord, Square> path, Square firstSquare) {
-        this.path = path;
+    public Enemy(Square firstSquare) {
+        init( firstSquare);
+    }
+
+//    public Enemy
+
+    private void init(Square firstSquare){
+        this.path = GameContainer.path;
         cords = addCoordsToArray();
         oppositeDirection = createOppositeDirection();
         lastDirection = Direction.RIGHT;
@@ -24,6 +31,8 @@ public class Enemy {
         setHealth(100);
         spawn(currentSquare);
     }
+
+
 
     public void setHealth(int health) {
         this.health = health;
@@ -40,12 +49,14 @@ public class Enemy {
     }
 
     public ArrayList<Square> sortPath(HashMap<SquareCoord, Square> path) {
+        die();
         ArrayList<Square> sortedPath = new ArrayList<>();
         for (int i = 0; i + 1 < path.size(); i++) {
             Square nextPath = getNextPath();
             nextPath.setPathIndex(i);
             sortedPath.add(nextPath);
         }
+
         return sortedPath;
     }
 
@@ -87,7 +98,7 @@ public class Enemy {
     }
 
     public int getIndex() {
-        return currentSquare.pathIndex;
+        return pathIndex;
     }
 
     private Square getNextPathFromMap(boolean vertical, int increase) {
@@ -139,7 +150,7 @@ public class Enemy {
     public void takeDamage(int damage) {
         health -= damage;
         if (health <= 0) die();
-        System.out.println("Taking " + damage + " damage");
+        System.out.println(" Taking " + damage + " damage " + health);
     }
 }
 

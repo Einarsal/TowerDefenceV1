@@ -2,16 +2,18 @@ package org.example;
 
 import java.util.ArrayList;
 
-public class Shooter {
-//public class Shooter implements Unit {
+//public class Shooter {
+public class Shooter implements Unit {
 
     protected int range, speed, damage;
+    public final int towerType;
 
-    protected Shooter(int range, int speed, int damage, Square position) {
+    protected Shooter(int range, int speed, int damage, Square position, int towerType) {
         this.range = range;
         this.speed = speed;
         this.damage = damage;
         this.position = position;
+        this.towerType = towerType;
     }
 
     Square position;
@@ -24,11 +26,13 @@ public class Shooter {
                 if(s.hasGubbe) enemies.add(s.enemy);
             }
             return sortEnemies(enemies);
+//            return enemies;
         };
         ArrayList<Enemy> enemiesInRange = areaScanner.scanArea(range, position);
         if(enemiesInRange.isEmpty()) return;
 
-        enemiesInRange.getFirst().takeDamage(damage);
+        enemiesInRange.get(0).takeDamage(damage);
+
     }
 
     private ArrayList<Enemy> sortEnemies(ArrayList<Enemy> enemies) {
@@ -36,7 +40,7 @@ public class Shooter {
         ArrayList<Enemy> sortedEnemies = new ArrayList<>(enemies);
         for (int i = sortedEnemies.size(); i > 0; i--) {
             for (int j = 0; j < i-1; j++) {
-                if(sortedEnemies.get(j).getIndex() > sortedEnemies.get(j + 1).getIndex()) {
+                if(sortedEnemies.get(j).getIndex() < sortedEnemies.get(j + 1).getIndex()) {
                     Enemy temp = sortedEnemies.get(j);
                     sortedEnemies.set(j, sortedEnemies.get(j + 1));
                     sortedEnemies.set(j + 1, temp);
@@ -67,8 +71,23 @@ public class Shooter {
     }
 
 
-//    @Override
-//    public void fire() {
-//        dealDamage(damage);
-//    }
+    @Override
+    public void fire() {
+        dealDamage(damage);
+    }
+
+    @Override
+    public int getRow() {
+        return position.coord.row;
+    }
+
+    @Override
+    public int getCol() {
+        return position.coord.col;
+    }
+
+    @Override
+    public int getType(){
+        return towerType;
+    }
 }
