@@ -5,24 +5,33 @@ import java.util.HashMap;
 
 public class GameContainer {
 
-    public static final String title = "Pe1nab Defence";
-    public static final int fps = 2;
+    public static final String TITLE = "Pe1nab Defence";
+    public static final String CONFIG_URL = "src/main/resources/config.xml";
+    public final int FPS;
     public static Panel panel = new Panel(10, 10);
-    static Frame mainFrame;
     public static ArrayList<Enemy> enemies = new ArrayList<>();
     public static ArrayList<Unit> units = new ArrayList<>();
-    public static final HashMap<SquareCoord, Square> path = panel.getPath();
+    public static final HashMap<SquareCoord, Square> PATH = panel.getPath();
     public static ArrayList<Square> sortedPath;
 
 
     public GameContainer() throws InterruptedException {
-        mainFrame = new Frame(title, panel);
+        new Frame(TITLE, panel);
+        FPS = getFPS();
         sortPath();
-        GameTimer updater = new GameTimer(fps, this);
+        GameTimer updater = new GameTimer(FPS, this);
         updater.thread.start();
         Thread.sleep(5000);
 //        updater.thread.interrupt();
     }
+
+    private int getFPS() {
+        String fps = ConfigParser.getProperty(CONFIG_URL, "fps2").getFirst();
+        System.out.println(fps);
+        return Integer.parseInt(fps);
+    }
+
+
 
     public static void gameStopped() {
         System.out.println("Game stopped");
@@ -30,7 +39,7 @@ public class GameContainer {
 
     public void sortPath() {
         Enemy pathFinder = new Enemy(panel.getFirstPathSquare());
-        sortedPath = pathFinder.sortPath(path);
+        sortedPath = pathFinder.sortPath(PATH);
 
         for (int i = 0; i < sortedPath.size(); i++) {
             Square s = sortedPath.get(i);
@@ -39,7 +48,6 @@ public class GameContainer {
             panel.grid[col][row].setPathIndex(i);
         }
     }
-
 
     public void updateGame() {
         fireUnits();
@@ -53,7 +61,8 @@ public class GameContainer {
             e.move();
         }
     }
-    public void finnishWave(){
+
+    public void finnishWave() {
         gameStopped();
     }
 
@@ -67,7 +76,7 @@ public class GameContainer {
         }
     }
 
-    public void startWave(){
+    public void startWave() {
         spawnEnemies(new Enemy[]{new Enemy(panel.getFirstPathSquare())});
     }
 

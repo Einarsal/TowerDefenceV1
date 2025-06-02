@@ -57,7 +57,7 @@ public class Shooter implements Unit {
         ArrayList<Square> squaresInRange = new ArrayList<>();
         int row = position.coord.row;
         int col = position.coord.col;
-        for(Square s : GameContainer.path.values()){
+        for(Square s : GameContainer.PATH.values()){
             if(isInRange(range, s, row, col)) squaresInRange.add(s);
         }
         return squaresInRange;

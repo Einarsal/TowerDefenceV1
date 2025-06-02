@@ -1,6 +1,5 @@
 package org.example;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -23,7 +22,7 @@ public class Enemy {
 //    public Enemy
 
     private void init(Square firstSquare){
-        this.path = GameContainer.path;
+        this.path = GameContainer.PATH;
         cords = addCoordsToArray();
         oppositeDirection = createOppositeDirection();
         lastDirection = Direction.RIGHT;

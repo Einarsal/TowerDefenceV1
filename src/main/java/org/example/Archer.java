@@ -12,6 +12,7 @@ public class Archer extends Shooter /*implements Unit*/{
         super(2, 100, 20, position, towerType);
     }
 
+    
 
 
 //    @Override

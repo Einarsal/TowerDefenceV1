@@ -1,4 +1,7 @@
-<root>
-    <fps>60</fps>
+<properties>
+    <fps>
+        <fps2>2</fps2>
+    </fps>
 
-</root>
+
+</properties>
