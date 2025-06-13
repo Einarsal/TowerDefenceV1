@@ -19,26 +19,35 @@ public class ConfigParser {
         ArrayList<String> propertyValues = new ArrayList<>();
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = null;
+            DocumentBuilder builder;
             builder = factory.newDocumentBuilder();
             Document doc = builder.parse(fileURL);
 
             NodeList propertiesList = doc.getElementsByTagName(propertyTag);
             int propertiesListLength = propertiesList.getLength();
-            if (propertiesListLength == 1) {
-                propertyValues.add(propertiesList.item(0).getTextContent());
-                return propertyValues;
-            }
+//            if (propertiesListLength == 1) {
+//                propertyValues.add(propertiesList.item(0).getTextContent());
+//                return propertyValues;
+//            }
 
             for (int i = 0; i < propertiesListLength; i++) {
                 Node node = propertiesList.item(i);
-                if (node.getNodeType() != Node.ELEMENT_NODE) return propertyValues;
+                if (node.getNodeType() != Node.ELEMENT_NODE) {
+                    return propertyValues;
+                }
+
                 Element property = (Element) node;
                 NodeList values = property.getChildNodes();
+                if (values.getLength() == 1) {
+                    propertyValues.add(property.getTextContent().trim());
+                    return propertyValues;
+                }
+                System.out.println(values.getLength());
                 for (int j = 0; j < values.getLength(); j++) {
                     Node value = values.item(j);
-                    if (value.getNodeType() != Node.ELEMENT_NODE) return propertyValues;
-                      propertyValues.add(((Element) value).getTextContent());
+                    if (value.getNodeType() != Node.ELEMENT_NODE) continue;
+                    System.out.println(value.getTextContent().trim());
+                    propertyValues.add(value.getTextContent());
                 }
             }
         } catch (ParserConfigurationException | IOException e) {

@@ -1,7 +1,10 @@
 <properties>
-    <fps>
-        <fps2>2</fps2>
-    </fps>
+    <fps>60</fps>
 
-
+    <EnemyStats>
+        <Normal>
+            <Health>100</Health>
+            <Speed>2</Speed>
+        </Normal>
+    </EnemyStats>
 </properties>

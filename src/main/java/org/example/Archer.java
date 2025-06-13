@@ -9,7 +9,7 @@ public class Archer extends Shooter /*implements Unit*/{
     }
 
     public Archer(Square position) {
-        super(2, 100, 20, position, towerType);
+        super(2, 30, 20, position, towerType);
     }
 
     

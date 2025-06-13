@@ -14,23 +14,40 @@ public class Enemy {
     private HashMap<Direction, Direction> oppositeDirection = new HashMap<>();
     private SquareCoord[] cords;
     public int health;
+    private int speed;
+    private int frameCounter = 0;
 
-    public Enemy(Square firstSquare) {
-        init( firstSquare);
+    public Enemy(Square firstSquare, int enemyType) {
+//        this.speed = framerate / speed;
+        init(firstSquare, enemyType);
+    }
+
+    private void setEnemyStats(int enemyType){
+        String tag;
+        switch(enemyType){
+            case 1 -> tag = "Normal";
+            default -> tag = "";
+        }
+
+        ArrayList<String> stats = ConfigParser.getProperty(GameContainer.CONFIG_URL, tag);
+        setHealth(Integer.parseInt(stats.get(0).trim()));
+        this.speed = GameContainer.FPS/Integer.parseInt(stats.get(1).trim());
+
+
     }
 
 //    public Enemy
 
-    private void init(Square firstSquare){
+    private void init(Square firstSquare, int enemyType) {
         this.path = GameContainer.PATH;
         cords = addCoordsToArray();
         oppositeDirection = createOppositeDirection();
         lastDirection = Direction.RIGHT;
         currentSquare = firstSquare;
-        setHealth(100);
+        setEnemyStats(enemyType);
+//        setHealth(100);
         spawn(currentSquare);
     }
-
 
 
     public void setHealth(int health) {
@@ -69,6 +86,7 @@ public class Enemy {
     }
 
     public void move() {
+        if (frameCounter++ % speed != 0) return;
         if (pathIndex + 1 >= path.size()) return;
         currentSquare.paintGubbe(false, this);
         currentSquare = getNextPath();

@@ -7,7 +7,7 @@ public class GameContainer {
 
     public static final String TITLE = "Pe1nab Defence";
     public static final String CONFIG_URL = "src/main/resources/config.xml";
-    public final int FPS;
+    public static int FPS;
     public static Panel panel = new Panel(10, 10);
     public static ArrayList<Enemy> enemies = new ArrayList<>();
     public static ArrayList<Unit> units = new ArrayList<>();
@@ -26,7 +26,7 @@ public class GameContainer {
     }
 
     private int getFPS() {
-        String fps = ConfigParser.getProperty(CONFIG_URL, "fps2").getFirst();
+        String fps = ConfigParser.getProperty(CONFIG_URL, "fps").getFirst().trim();
         System.out.println(fps);
         return Integer.parseInt(fps);
     }
@@ -38,7 +38,7 @@ public class GameContainer {
     }
 
     public void sortPath() {
-        Enemy pathFinder = new Enemy(panel.getFirstPathSquare());
+        Enemy pathFinder = new Enemy(panel.getFirstPathSquare(), 1);
         sortedPath = pathFinder.sortPath(PATH);
 
         for (int i = 0; i < sortedPath.size(); i++) {
@@ -77,12 +77,12 @@ public class GameContainer {
     }
 
     public void startWave() {
-        spawnEnemies(new Enemy[]{new Enemy(panel.getFirstPathSquare())});
+        spawnEnemies(new Enemy[]{new Enemy(panel.getFirstPathSquare(),1)});
     }
 
     public void spawnEnemies(Enemy[] newEnemies) {
 
-        enemies.add(new Enemy(panel.getFirstPathSquare()));
+        enemies.add(new Enemy(panel.getFirstPathSquare(),1));
     }
 
     public void tempTowerSpawner() {

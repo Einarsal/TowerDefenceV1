@@ -7,6 +7,7 @@ public class Shooter implements Unit {
 
     protected int range, speed, damage;
     public final int towerType;
+    private int frameCount = 0;
 
     protected Shooter(int range, int speed, int damage, Square position, int towerType) {
         this.range = range;
@@ -17,6 +18,7 @@ public class Shooter implements Unit {
     }
 
     Square position;
+
 
     protected void dealDamage(int damage) {
         AreaScanner areaScanner = (range, positionSquare) -> {
@@ -70,10 +72,14 @@ public class Shooter implements Unit {
 
     }
 
+    private void tick(){
+        if(frameCount++ % speed == 0) dealDamage(damage);
+    }
 
     @Override
     public void fire() {
-        dealDamage(damage);
+        tick();
+//        dealDamage(damage);
     }
 
     @Override
