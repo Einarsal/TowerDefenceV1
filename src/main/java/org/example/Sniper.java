@@ -6,7 +6,7 @@ public class Sniper extends Shooter{
 
 
     protected Sniper(Square position) {
-        super(2, 100, 20, position, towerType);
+        super(position, towerType);
     }
 
 

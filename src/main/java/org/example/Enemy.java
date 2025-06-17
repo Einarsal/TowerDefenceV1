@@ -15,7 +15,7 @@ public class Enemy {
     private HashMap<Direction, Direction> oppositeDirection = new HashMap<>();
     private SquareCoord[] cords;
     public int health;
-    private int speed;
+    private int speed, damage;
     private int frameCounter = 0;
     private Color color;
 
@@ -25,9 +25,11 @@ public class Enemy {
     }
 
     private void setEnemyStats(int enemyType){
+        if(enemyType == -1) return;
         ArrayList<Integer> enemyStats = getEnemyStats(enemyType);
         health = enemyStats.get(0);
         speed = GameContainer.FPS/enemyStats.get(1);
+        damage = enemyStats.get(2);
         color = calculateColor(enemyType);
     }
 
@@ -98,7 +100,10 @@ public class Enemy {
 
     public void move() {
         if (frameCounter++ % speed != 0) return;
-        if (pathIndex + 1 >= path.size()) return;
+        if (pathIndex + 1 >= path.size()) {
+            dealDamage();
+            return;
+        }
         currentSquare.paintGubbe(false, this, null);
         currentSquare = getNextPath();
         currentSquare.paintGubbe(true, this, color);
@@ -185,6 +190,11 @@ public class Enemy {
         health -= damage;
         if (health <= 0) die();
         System.out.println(" Taking " + damage + " damage " + health);
+    }
+
+    public void dealDamage() {
+        PlayerSide.takeDamage(damage);
+        die();
     }
 }
 

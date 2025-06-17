@@ -36,11 +36,13 @@ public class ConfigParser {
             ArrayList<Node> nodes = getLowestNode(propertyNodes);
 
             int i = 0;
-            while (nodes.get(i).getNodeType() == Node.TEXT_NODE){
+            if(!nodes.isEmpty()){
+                while (nodes.get(i).getNodeType() == Node.TEXT_NODE) {
                     propertyValues.add(nodes.get(i).getTextContent());
                     i++;
-                if (i == nodes.size()){
-                    return propertyValues;
+                    if (i == nodes.size()) {
+                        return propertyValues;
+                    }
                 }
             }
 

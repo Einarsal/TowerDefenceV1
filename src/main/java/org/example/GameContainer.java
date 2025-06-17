@@ -7,13 +7,14 @@ public class GameContainer {
 
     public static final String TITLE = "Pe1nab Defence";
     public static final String CONFIG_URL = "src/main/resources/config.xml";
+    public static final PlayerSide ps = new PlayerSide(100, 100);
     public static int FPS;
     public static Panel panel = new Panel(10, 10);
     public static ArrayList<Enemy> enemies = new ArrayList<>();
     public static ArrayList<Unit> units = new ArrayList<>();
     public static final HashMap<SquareCoord, Square> PATH = panel.getPath();
     public static ArrayList<Square> sortedPath;
-    public static int wave = 0;
+    public static int wave = 1;
     public static int tick = 0;
     private int spawnInterval = 0, enemiesToSpawn = 0, spawnEnemyType = 0, lastSpawnTick = 0;
     private int enemyType = 0;
@@ -66,8 +67,6 @@ public class GameContainer {
     public void updateGame() {
         fireUnits();
         moveEnemies();
-
-
         if (enemiesToSpawn > 0 && lastSpawnTick <= tick - spawnInterval) {
             spawnEnemy(spawnEnemyType);
             enemiesToSpawn--;
@@ -85,22 +84,32 @@ public class GameContainer {
     private void setWaveValues() {
         enemiesToSpawn = waveAmounts.get(enemyType) - 1;
         spawnEnemyType = enemyType;
-        spawnInterval = (int)(1.5*FPS / Enemy.getSpeed(enemyType));
+        spawnInterval = (int) (1.5 * FPS / Enemy.getSpeed(enemyType));
         lastSpawnTick = tick;
-        if(enemiesToSpawn < 0) return;
+        if (enemiesToSpawn < 0) return;
         spawnEnemy(enemyType);
     }
 
     private void moveEnemies() {
         removeDeadEnemies();
-        if (enemies.isEmpty()) finnishWave();
-        for (Enemy e : enemies) {
-            e.move();
+        if (enemies.isEmpty()) {
+            finnishWave();
+        } else {
+            ArrayList<Enemy> enemiesClone = new ArrayList<>(enemies);
+            for (Enemy e : enemies) {
+                e.move();
+                if(!enemies.equals(enemiesClone)){
+//                    moveEnemies();
+                    break;
+                }
+            }
         }
     }
 
     public void finnishWave() {
         wave++;
+        enemyType=0;
+        waveAmounts.clear();
         startWave();
     }
 
@@ -131,7 +140,7 @@ public class GameContainer {
     }
 
     public void tempTowerSpawner() {
-        Archer archer = new Archer(panel.grid[5][5]);
+        Shooter archer = new Shooter(panel.grid[5][5],1);
         panel.placeUnit(archer);
         units.add(archer);
     }

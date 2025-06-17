@@ -18,6 +18,7 @@ public class Square extends JPanel {
 
     private enum TowerType {
         ARCHER,
+        SNIPER,
     }
 
     public Square(int width, int height, int col, int row) {
