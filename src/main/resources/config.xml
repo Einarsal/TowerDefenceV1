@@ -2,9 +2,29 @@
     <fps>60</fps>
 
     <EnemyStats>
+        <PathSorter>
+            <Health>0</Health>
+            <Speed>60</Speed>
+        </PathSorter>
         <Normal>
-            <Health>100</Health>
+            <Health>120</Health>
             <Speed>2</Speed>
         </Normal>
+        <NotNormal>
+            <Health>200</Health>
+            <speed>1</speed>
+        </NotNormal>
     </EnemyStats>
+
+    <Wawes>
+        <wave0>
+            <Normal amount="2"/>
+            <NotNormal amount="0"/>
+        </wave0>
+        <wave1>
+            <Normal amount="5"/>
+            <NotNormal amount="4"/>
+        </wave1>
+
+    </Wawes>
 </properties>

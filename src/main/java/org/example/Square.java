@@ -13,6 +13,7 @@ public class Square extends JPanel {
     public SquareCoord coord;
     public Enemy enemy;
     private TowerType towerType;
+    private Color gubbeColor;
 
 
     private enum TowerType {
@@ -59,8 +60,9 @@ public class Square extends JPanel {
         }
     }
 
-    public void paintGubbe(boolean hasGubbe, Enemy enemy) {
+    public void paintGubbe(boolean hasGubbe, Enemy enemy, Color gubbeColor) {
         this.hasGubbe = hasGubbe;
+        this.gubbeColor = gubbeColor;
         repaint();
         if (!hasGubbe) this.enemy = null;
         else this.enemy = enemy;
@@ -69,12 +71,8 @@ public class Square extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
         if (hasTower)paintTower(g);
-
-
-
-        if (hasGubbe) paintEnemy(g, Color.MAGENTA);
+        if (hasGubbe) paintEnemy(g, gubbeColor);
 
     }
 

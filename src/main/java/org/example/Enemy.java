@@ -1,5 +1,6 @@
 package org.example;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -16,6 +17,7 @@ public class Enemy {
     public int health;
     private int speed;
     private int frameCounter = 0;
+    private Color color;
 
     public Enemy(Square firstSquare, int enemyType) {
 //        this.speed = framerate / speed;
@@ -23,20 +25,32 @@ public class Enemy {
     }
 
     private void setEnemyStats(int enemyType){
+        ArrayList<Integer> enemyStats = getEnemyStats(enemyType);
+        health = enemyStats.get(0);
+        speed = GameContainer.FPS/enemyStats.get(1);
+        color = calculateColor(enemyType);
+    }
+
+    private static ArrayList<Integer> getEnemyStats(int enemyType){
         String tag;
         switch(enemyType){
-            case 1 -> tag = "Normal";
+            case -1 -> tag = "PathSorter";
+            case 0 -> tag = "Normal";
+            case 1 -> tag = "NotNormal";
             default -> tag = "";
         }
 
-        ArrayList<String> stats = ConfigParser.getProperty(GameContainer.CONFIG_URL, tag);
-        setHealth(Integer.parseInt(stats.get(0).trim()));
-        this.speed = GameContainer.FPS/Integer.parseInt(stats.get(1).trim());
-
-
+        ArrayList<String> values = ConfigParser.getProperty(GameContainer.CONFIG_URL, tag);
+        ArrayList <Integer> stats = new ArrayList<>();
+        for(String value : values){
+            stats.add(Integer.parseInt(value.trim()));
+        }
+        return stats;
     }
 
-//    public Enemy
+    public static int getSpeed(int enemyType){
+        return getEnemyStats(enemyType).get(1);
+    }
 
     private void init(Square firstSquare, int enemyType) {
         this.path = GameContainer.PATH;
@@ -50,9 +64,6 @@ public class Enemy {
     }
 
 
-    public void setHealth(int health) {
-        this.health = health;
-    }
 
     private SquareCoord[] addCoordsToArray() {
         SquareCoord[] list = new SquareCoord[path.size()];
@@ -88,10 +99,16 @@ public class Enemy {
     public void move() {
         if (frameCounter++ % speed != 0) return;
         if (pathIndex + 1 >= path.size()) return;
-        currentSquare.paintGubbe(false, this);
+        currentSquare.paintGubbe(false, this, null);
         currentSquare = getNextPath();
-        currentSquare.paintGubbe(true, this);
+        currentSquare.paintGubbe(true, this, color);
         pathIndex++;
+    }
+
+    private Color calculateColor(int enemyType){
+        int rgb = 50*enemyType;
+        if(rgb > 255) rgb = 255;
+        return new Color(rgb);
     }
 
     private Square getNextPath() {
@@ -151,7 +168,7 @@ public class Enemy {
     }
 
     public void spawn(Square currentSquare) {
-        currentSquare.paintGubbe(true, this);
+        currentSquare.paintGubbe(true, this, color);
     }
 
     public String toString() {
@@ -159,7 +176,7 @@ public class Enemy {
     }
 
     private void die() {
-        currentSquare.paintGubbe(false, this);
+        currentSquare.paintGubbe(false, this, null);
         GameContainer.enemies.remove(this);
         dead = true;
     }
